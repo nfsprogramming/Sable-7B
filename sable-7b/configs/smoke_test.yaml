@@ -1,0 +1,35 @@
+# Sable-7B — Smoke Test Config
+# Runs against the bundled 10-row toy dataset to confirm no OOM on RTX 4050 6 GB.
+# Usage (from the sable-7b/ folder):
+#   soup train --config smoke_test.yaml
+
+base: Qwen/Qwen2.5-Coder-7B-Instruct
+task: sft
+backend: transformers
+
+data:
+  train: ../libs/soup/examples/data/alpaca_tiny.jsonl
+  format: alpaca
+  max_length: 1024
+
+training:
+  epochs: 1
+  lr: 2.0e-4
+  batch_size: 1
+  gradient_accumulation_steps: 4
+  quantization: 4bit       # NF4 — must-have for 6 GB VRAM
+  stream_layers: true      # streams frozen base layers from RAM → GPU one at a time
+  seed: 42
+  logging_steps: 1
+  save_steps: 999999       # don't save checkpoint during smoke test
+  lora:
+    r: 16
+    alpha: 32
+    dropout: 0.05
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+
+output: ./output/smoke-test/

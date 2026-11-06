@@ -1,0 +1,17 @@
+# Sable-7B Dependencies
+
+# Deep Learning & Model Training
+torch>=2.0.0
+transformers>=4.40.0
+peft>=0.10.0
+accelerate>=0.28.0
+bitsandbytes>=0.43.0
+trl>=0.8.0
+
+# Data Collection & Processing
+datasets>=2.18.0
+PyGithub>=2.1.0
+PyYAML>=6.0.0
+
+# Development & Testing
+pytest>=8.0.0

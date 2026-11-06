@@ -1,0 +1,52 @@
+# Sable-7B — Soup Training Config
+# Fine-tune Qwen2.5-Coder-7B-Instruct via QLoRA 4-bit on RTX 4050 6 GB
+#
+# Usage:
+#   soup train --config sable-7b/soup.yaml
+#
+# SMOKE TEST: Set data.train to a tiny JSONL first to verify no OOM.
+# PRODUCTION: Point data.train at ./data/processed/train.jsonl
+
+base: Qwen/Qwen2.5-Coder-7B-Instruct
+task: sft
+backend: transformers  # switch to: unsloth  if "pip install soup-cli[fast]" was used
+
+data:
+  # --- SMOKE TEST (uncomment for first run) ---
+  # train: ../libs/soup/examples/data/alpaca_tiny.jsonl
+  # format: alpaca
+
+  # --- PRODUCTION (Phase 1) ---
+  train: ./data/processed/train.jsonl
+  val:   ./data/processed/val.jsonl
+  format: chatml     # native chat / messages format (matches Qwen instruct template)
+  max_length: 1024   # fits RTX 4050 6GB comfortably with layer streaming
+
+training:
+  epochs: 3
+  lr: 2.0e-4
+  batch_size: 1
+  gradient_accumulation_steps: 16   # effective batch size = 16
+  quantization: 4bit                # NF4 — critical for 6 GB VRAM
+  stream_layers: true               # ✅ verified: 2.3/6.0 GB actual VRAM on RTX 4050
+  stream_vram_probe: true           # measures real peak forward+backward before training
+  seed: 42
+  scheduler: cosine
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  logging_steps: 10
+  save_steps: 250
+  lora:
+    r: 16
+    alpha: 32
+    dropout: 0.05
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+
+output: ./output/run-001/

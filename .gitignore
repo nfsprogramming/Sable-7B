@@ -1,0 +1,80 @@
+# =============================================================================
+# Sable-7B .gitignore
+# =============================================================================
+
+# Training Data & Raw Datasets
+sable-7b/data/raw/
+sable-7b/data/processed/
+sable-7b/sable_dataset.zip
+*.parquet
+*.arrow
+
+# Model Checkpoints & Large Artifacts
+sable-7b/output/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+*.gguf
+training_args.bin
+
+# Tokenizer Large Artifacts
+tokenizer.json
+vocab.json
+merges.txt
+
+# Python Caches & Build Outputs
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Testing & Quality Tools
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter & Notebook Checkpoints
+.ipynb_checkpoints/
+
+# Experiment Logging & Profiling
+*.log
+wandb/
+runs/
+
+# IDE & Editor Configuration
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# Secrets & Local Configurations
+.env
+*.env
+.env.*
+!*.env.example
+*.pem
+*.key
+*.keystore
+*.jks
+kaggle.json

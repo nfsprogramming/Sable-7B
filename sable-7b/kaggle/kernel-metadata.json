@@ -1,0 +1,17 @@
+{
+  "id": "nfsprogramming/sable-7b-trainer",
+  "title": "sable-7b trainer",
+  "code_file": "train.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "dataset_sources": [
+    "nfsprogramming/sable-7b"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}
